@@ -67,12 +67,12 @@ export const createUser = async (req, res) => {
       return res.status(401).json({ message: 'email already in use' })
     }
     // hashing the password
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(password, salt)
+    // const salt = await bcrypt.genSalt(10)
+    // const hash = await bcrypt.hash(password, salt)
     const response = await userModel.create({
       name,
       email,
-      password: hash,
+      password,
       phone,
       address
     })
