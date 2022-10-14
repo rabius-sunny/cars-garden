@@ -22,7 +22,7 @@ import {
   IconSwitchHorizontal,
   IconChevronDown
 } from '@tabler/icons'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const user = {
   name: 'Jane Spoonfighter',
@@ -123,13 +123,18 @@ const useStyles = createStyles(theme => ({
 }))
 
 export default function Navbar() {
+  const navigate = useNavigate()
   const { classes, theme, cx } = useStyles()
   const [opened, { toggle }] = useDisclosure(false)
   const [userMenuOpened, setUserMenuOpened] = useState(false)
 
   const items = tabs.map(tab => (
-    <Tabs.Tab value={tab.name} key={tab.name}>
-      <Link to={tab.link}>{tab.name}</Link>
+    <Tabs.Tab
+      onClick={() => navigate(tab.link)}
+      value={tab.name}
+      key={tab.name}
+    >
+      {tab.name}
     </Tabs.Tab>
   ))
 

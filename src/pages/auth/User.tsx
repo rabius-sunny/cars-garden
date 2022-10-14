@@ -1,30 +1,49 @@
-import { TextInput, Button, Box, Container, Title, Space } from '@mantine/core'
+import {
+  TextInput,
+  Button,
+  Box,
+  Container,
+  Title,
+  Space,
+  Loader
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useAppDispatch } from 'hooks/redux'
-import { useState } from 'react'
-import { signupUser } from 'redux/userSlice'
+import { showNotification } from '@mantine/notifications'
+import {
+  IconAlertOctagon,
+  IconTrademark,
+  IconUser,
+  IconUserCircle
+} from '@tabler/icons'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { resetAuthLoading, signinUser, signupUser } from 'redux/userSlice'
 
 export default function User() {
+  const navigate = useNavigate()
   const [isLogin, setIsLogin] = useState(true)
   const dispatch = useAppDispatch()
+  const state = useAppSelector(state => state)
   interface formData {
     name: string
     email: string
     phone: string
     phone2: string
-    location: string
+    address: string
   }
   interface loginData {
     email: string
     password: string
   }
-  const signinForm = useForm({
+  const signupForm = useForm({
     initialValues: {
       name: '',
       email: '',
       phone: '',
       phone2: '',
-      location: ''
+      address: '',
+      password: ''
     },
     validate: {
       name: value => (value.length < 2 ? 'name is required' : null),
@@ -32,24 +51,42 @@ export default function User() {
       phone: value => (value.length < 5 ? 'phone is required' : null),
       phone2: value =>
         value.length < 5 ? 'additional phone is required' : null,
-      location: value => (value.length < 2 ? 'location is required' : null)
+      address: value => (value.length < 2 ? 'address is required' : null),
+      password: value =>
+        value.length < 4 ? 'length must be 4 or larger' : null
     }
   })
-  const signupForm = useForm({
+  const signinForm = useForm({
     initialValues: {
       email: '',
       password: ''
     },
     validate: {
-      email: value => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
+      email: value => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: value =>
+        value.length > 4 ? null : 'length must be 4 or larger'
     }
   })
-  const handleLogin = (values: loginData) => {
-    console.log('values', values)
-  }
-  const handleSignup = (values: formData) => {
-    dispatch(signupUser(values))
-  }
+  const handleLogin = (values: loginData) => dispatch(signinUser(values))
+  const handleSignup = (values: formData) => dispatch(signupUser(values))
+
+  useEffect(() => {
+    dispatch(resetAuthLoading())
+  }, [])
+  useEffect(() => {
+    state.user.authLoading === 'error' &&
+      showNotification({
+        id: 'hello-there',
+        autoClose: 5000,
+        title: 'Error',
+        message: 'Error in authenticating, try again',
+        color: 'red',
+        icon: <IconAlertOctagon size={25} />,
+        className: 'my-notification-class',
+        sx: { backgroundColor: '#ff00001c' },
+        loading: false
+      })
+  }, [state.user.authLoading])
 
   return (
     <Container size='sm'>
@@ -65,11 +102,11 @@ export default function User() {
         )}
         {isLogin ? (
           <Box sx={{ maxWidth: 300 }} mx='auto'>
-            <form onSubmit={signupForm.onSubmit(values => handleLogin(values))}>
+            <form onSubmit={signinForm.onSubmit(values => handleLogin(values))}>
               <TextInput
                 withAsterisk
                 label='Email'
-                {...signupForm.getInputProps('email')}
+                {...signinForm.getInputProps('email')}
               />
               <Space h='lg' />
               <TextInput
@@ -77,11 +114,15 @@ export default function User() {
                 label='Password'
                 type='password'
                 placeholder='********'
-                {...signupForm.getInputProps('password')}
+                {...signinForm.getInputProps('password')}
               />
 
               <Button mt={20} type='submit'>
-                Log in
+                {state.user.authLoading === 'pending' ? (
+                  <Loader size='xs' color='white' />
+                ) : (
+                  'Log in'
+                )}
               </Button>
             </form>
             <div className='flex mt-6 items-center justify-center'>
@@ -89,60 +130,77 @@ export default function User() {
               or
               <div className='bg-gray-600 h-[1px] w-24 ml-1'></div>
             </div>
-            <div className='mt-8 text-center'>
+            <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(false)}
-                className='text-indigo-500 bg-transparent text-lg'
+                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
-                Create an account
+                <IconUserCircle size={34} />
+                <span>Create an account</span>
+              </button>
+            </div>
+            <div className='mt-4 flex justify-center'>
+              <button
+                onClick={() => navigate('/login/supplier')}
+                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+              >
+                <IconTrademark
+                  className='border-2 border-indigo-600 rounded-2xl'
+                  size={30}
+                />
+                <span>Are you a supplier?</span>
               </button>
             </div>
           </Box>
         ) : (
           <Box sx={{ maxWidth: 300 }} mx='auto'>
             <form
-              onSubmit={signinForm.onSubmit(values => handleSignup(values))}
+              onSubmit={signupForm.onSubmit(values => handleSignup(values))}
             >
               <TextInput
                 withAsterisk
                 label='Company Name'
-                {...signinForm.getInputProps('name')}
+                {...signupForm.getInputProps('name')}
               />
               <Space h='lg' />
               <TextInput
                 withAsterisk
                 label='Email'
                 placeholder='you@email.com'
-                {...signinForm.getInputProps('email')}
+                {...signupForm.getInputProps('email')}
               />
               <Space h='lg' />
               <TextInput
                 withAsterisk
                 label='Password'
-                {...signinForm.getInputProps('password')}
+                {...signupForm.getInputProps('password')}
               />
               <Space h='lg' />
               <TextInput
                 withAsterisk
                 label='Phone no.'
-                {...signinForm.getInputProps('phone')}
+                {...signupForm.getInputProps('phone')}
               />
               <Space h='lg' />
               <TextInput
                 withAsterisk
                 label='Add. Phone no.'
-                {...signinForm.getInputProps('phone2')}
+                {...signupForm.getInputProps('phone2')}
               />
               <Space h='lg' />
               <TextInput
                 withAsterisk
                 label='Location'
                 placeholder='street, zip, state, country'
-                {...signinForm.getInputProps('location')}
+                {...signupForm.getInputProps('address')}
               />
 
               <Button mt={20} type='submit'>
-                Sign Up
+                {state.user.authLoading === 'pending' ? (
+                  <Loader size='xs' color='white' />
+                ) : (
+                  'Sign up'
+                )}
               </Button>
             </form>
             <div className='flex mt-6 items-center justify-center'>
@@ -150,12 +208,25 @@ export default function User() {
               or
               <div className='bg-gray-600 h-[1px] w-24 ml-1'></div>
             </div>
-            <div className='mt-8 text-center'>
+            <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(true)}
-                className='text-indigo-500 bg-transparent text-lg'
+                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
-                Login to yours
+                <IconUser size={25} />
+                <span>Login to yours</span>
+              </button>
+            </div>
+            <div className='mt-4 flex justify-center'>
+              <button
+                onClick={() => navigate('/login/supplier')}
+                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+              >
+                <IconTrademark
+                  className='border-2 border-indigo-600 rounded-2xl'
+                  size={30}
+                />
+                <span>Are you a supplier?</span>
               </button>
             </div>
           </Box>

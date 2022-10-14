@@ -10,7 +10,7 @@ const getAdminToken = user => sign(user, 'df34#$*&dj)(!@)dfkjdfjk')
 const getUserToken = user => sign(user, 'ddf3484#*$&!)@()4334dkf')
 
 export const createSupplier = async (req, res) => {
-  const { name, email, phone, phone2, location, password } = req.body
+  const { name, email, phone, phone2, address, password } = req.body
 
   try {
     const checkEmail = await supplierModel.findOne({ email })
@@ -26,7 +26,7 @@ export const createSupplier = async (req, res) => {
       password: hash,
       phone,
       phone2,
-      location
+      address
     })
     const token = getAdminToken({
       email: response.email,
@@ -67,12 +67,12 @@ export const createUser = async (req, res) => {
       return res.status(401).json({ message: 'email already in use' })
     }
     // hashing the password
-    // const salt = await bcrypt.genSalt(10)
-    // const hash = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
     const response = await userModel.create({
       name,
       email,
-      password,
+      password: hash,
       phone,
       address
     })
