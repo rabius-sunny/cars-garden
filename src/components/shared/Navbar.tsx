@@ -140,7 +140,7 @@ export default function Navbar() {
 
   return (
     <div className={classes.header}>
-      <Container className={classes.mainSection}>
+      <Container size='xl' className={classes.mainSection}>
         <Group position='apart'>
           <img
             src='/assets/images/logo.png'

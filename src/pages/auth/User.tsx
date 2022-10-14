@@ -86,6 +86,7 @@ export default function User() {
         sx: { backgroundColor: '#ff00001c' },
         loading: false
       })
+    state.user.userToken && navigate('/dashboard/user')
   }, [state.user.authLoading])
 
   return (
@@ -133,7 +134,7 @@ export default function User() {
             <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(false)}
-                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconUserCircle size={34} />
                 <span>Create an account</span>
@@ -142,7 +143,7 @@ export default function User() {
             <div className='mt-4 flex justify-center'>
               <button
                 onClick={() => navigate('/login/supplier')}
-                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconTrademark
                   className='border-2 border-indigo-600 rounded-2xl'
@@ -211,7 +212,7 @@ export default function User() {
             <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(true)}
-                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconUser size={25} />
                 <span>Login to yours</span>
@@ -220,7 +221,7 @@ export default function User() {
             <div className='mt-4 flex justify-center'>
               <button
                 onClick={() => navigate('/login/supplier')}
-                className='text-indigo-600 bg-indigo-100 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconTrademark
                   className='border-2 border-indigo-600 rounded-2xl'

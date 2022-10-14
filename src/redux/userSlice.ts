@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import requests from 'services/http'
-
 interface userState {
   supplierToken: string
   userToken: string
