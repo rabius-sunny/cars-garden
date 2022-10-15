@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   createStyles,
   Container,
@@ -8,38 +8,18 @@ import {
   Text,
   Menu,
   Tabs,
-  Burger
+  Drawer,
+  Navbar
 } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import {
-  IconLogout,
-  IconHeart,
-  IconStar,
-  IconMessage,
-  IconSettings,
-  IconPlayerPause,
-  IconTrash,
-  IconSwitchHorizontal,
-  IconChevronDown
+  IconChevronDown,
+  IconAlignLeft,
+  IconEdit,
+  IconLogout
 } from '@tabler/icons'
-import { useNavigate } from 'react-router-dom'
-
-const user = {
-  name: 'Jane Spoonfighter',
-  email: 'janspoon@fighter.dev',
-  image:
-    'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
-}
-const tabs = [
-  { name: 'Home', link: '/' },
-  { name: 'Cars', link: '/cars' },
-  { name: 'My Rents', link: '/dashboard' },
-  { name: 'Suppliers', link: '/' },
-  { name: 'Blogs', link: '/blog' },
-  { name: 'Login', link: '/login/user' },
-  { name: 'Helpdesk', link: '/' },
-  { name: 'About', link: '/' }
-]
+import { Link, useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { logout } from 'redux/slices/userSlice'
 
 const useStyles = createStyles(theme => ({
   header: {
@@ -56,21 +36,43 @@ const useStyles = createStyles(theme => ({
   mainSection: {
     paddingBottom: theme.spacing.sm
   },
-
-  user: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+  link: {
+    ...theme.fn.focusStyles(),
+    cursor: 'pointer',
+    display: 'block',
+    textDecoration: 'none',
+    fontSize: theme.fontSizes.sm,
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[2]
+        : theme.colors.gray[8],
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-    borderRadius: theme.radius.sm,
-    transition: 'background-color 100ms ease',
+    fontWeight: 500,
+    width: '100%',
 
     '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
-    },
+      backgroundColor: theme.fn.variant({
+        variant: 'light',
+        color: theme.primaryColor
+      }).background,
 
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none'
+      color: theme.primaryColor
     }
+  },
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.fn.variant({
+        variant: 'filled',
+        color: theme.primaryColor
+      }).background,
+      color: 'white'
+    }
+  },
+  user: {
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    transition: 'background-color 100ms ease'
   },
   username: {
     [theme.fn.smallerThan('xs')]: {
@@ -79,7 +81,8 @@ const useStyles = createStyles(theme => ({
   },
 
   burger: {
-    [theme.fn.largerThan('xs')]: {
+    background: 'transparent',
+    [theme.fn.largerThan('sm')]: {
       display: 'none'
     }
   },
@@ -122,134 +125,146 @@ const useStyles = createStyles(theme => ({
   }
 }))
 
-export default function Navbar() {
+export default function Navsbar() {
   const navigate = useNavigate()
-  const { classes, theme, cx } = useStyles()
-  const [opened, { toggle }] = useDisclosure(false)
-  const [userMenuOpened, setUserMenuOpened] = useState(false)
+  const dispatch = useAppDispatch()
+  const { classes, cx } = useStyles()
+  const [userMenuOpened, setUserMenuOpened] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [tabs, setTabs] = useState<any[]>(generalTabs)
+  const user = useAppSelector(state => state.user)
 
-  const items = tabs.map(tab => (
-    <Tabs.Tab
-      onClick={() => navigate(tab.link)}
-      value={tab.name}
-      key={tab.name}
+  useEffect(() => {
+    user.userToken && setTabs(userTabs)
+    user.supplierToken && setTabs(supplierTabs)
+  }, [])
+
+  const links = tabs.map(item => (
+    <a
+      className={classes.link}
+      key={item.name}
+      onClick={event => {
+        event.preventDefault()
+        navigate(item.link)
+        setOpen(false)
+      }}
     >
-      {tab.name}
-    </Tabs.Tab>
+      <span>{item.name}</span>
+    </a>
   ))
+
+  const handleClick = (link: string) => {
+    setUserMenuOpened(false)
+    navigate(link)
+  }
 
   return (
     <div className={classes.header}>
       <Container size='xl' className={classes.mainSection}>
         <Group position='apart'>
-          <img
-            src='/assets/images/logo.png'
-            width='200px'
-            height='80px'
-            alt='site logo'
-          />
+          <button className={classes.burger} onClick={() => setOpen(true)}>
+            <IconAlignLeft
+              size={30}
+              stroke={1.5}
+              className='text-primary bg-transparent'
+            />
+          </button>
+          <Link to='/'>
+            <img
+              src='/assets/images/logo.png'
+              width='150px'
+              height='70px'
+              alt='site logo'
+            />
+          </Link>
 
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size='sm'
-          />
-
-          <Menu
-            width={260}
-            position='bottom-end'
-            transition='pop-top-right'
-            onClose={() => setUserMenuOpened(false)}
-            onOpen={() => setUserMenuOpened(true)}
-          >
-            <Menu.Target>
-              <UnstyledButton
-                className={cx(classes.user, {
-                  [classes.userActive]: userMenuOpened
-                })}
-              >
-                <Group spacing={7}>
-                  <Avatar
-                    src={user.image}
-                    alt={user.name}
-                    radius='xl'
-                    size={20}
-                  />
-                  <Text
-                    className={classes.username}
-                    weight={500}
-                    size='sm'
-                    sx={{ lineHeight: 1 }}
-                    mr={3}
-                  >
-                    {user.name}
-                  </Text>
-                  <IconChevronDown size={12} stroke={1.5} />
-                </Group>
-              </UnstyledButton>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item
-                icon={
-                  <IconHeart
-                    size={14}
-                    color={theme.colors.red[6]}
-                    stroke={1.5}
-                  />
-                }
-              >
-                Liked posts
-              </Menu.Item>
-              <Menu.Item
-                icon={
-                  <IconStar
-                    size={14}
-                    color={theme.colors.yellow[6]}
-                    stroke={1.5}
-                  />
-                }
-              >
-                Saved posts
-              </Menu.Item>
-              <Menu.Item
-                icon={
-                  <IconMessage
-                    size={14}
-                    color={theme.colors.blue[6]}
-                    stroke={1.5}
-                  />
-                }
-              >
-                Your comments
-              </Menu.Item>
-
-              <Menu.Label>Settings</Menu.Label>
-              <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>
-                Account settings
-              </Menu.Item>
-              <Menu.Item icon={<IconSwitchHorizontal size={14} stroke={1.5} />}>
-                Change account
-              </Menu.Item>
-              <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>
-                Logout
-              </Menu.Item>
-
-              <Menu.Divider />
-
-              <Menu.Label>Danger zone</Menu.Label>
-              <Menu.Item icon={<IconPlayerPause size={14} stroke={1.5} />}>
-                Pause subscription
-              </Menu.Item>
-              <Menu.Item
-                color='red'
-                icon={<IconTrash size={14} stroke={1.5} />}
-              >
-                Delete account
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          {user.userToken || user.supplierToken ? (
+            <Menu width={260} position='bottom-end' transition='pop-top-right'>
+              <Menu.Target>
+                <UnstyledButton
+                  className={cx(classes.user, {
+                    [classes.userActive]: userMenuOpened
+                  })}
+                >
+                  <Group spacing={7}>
+                    <Avatar color='blue' radius='xl' size={35}>
+                      {user.name[0]}
+                    </Avatar>
+                    <Text
+                      className={classes.username}
+                      weight={500}
+                      size='sm'
+                      sx={{ lineHeight: 1 }}
+                      mr={3}
+                    >
+                      {user.name}
+                    </Text>
+                    <IconChevronDown size={12} stroke={1.5} />
+                  </Group>
+                </UnstyledButton>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>Setting</Menu.Label>
+                <Menu.Item
+                  onClick={() => handleClick('/edit/profile')}
+                  icon={<IconEdit size={20} stroke={1.5} color='teal' />}
+                >
+                  Edit profile info.
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item
+                  onClick={() => {
+                    if (window.confirm('Are you sure to logout?'))
+                      dispatch(logout())
+                  }}
+                  icon={<IconLogout size={20} stroke={1.5} color='red' />}
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          ) : (
+            <Link
+              className='bg-primary hover:bg-lite hover:text-primary hover:ring-2 hover:ring-primary text-white font-semibold py-1 px-2 md:py-2 md:px-4 '
+              to='/login/user'
+            >
+              Login
+            </Link>
+          )}
         </Group>
+        <Drawer
+          opened={open}
+          onClose={() => setOpen(false)}
+          title={
+            <div>
+              <img
+                src='/assets/images/logo.png'
+                width='150px'
+                height='60px'
+                alt='site logo'
+              />
+            </div>
+          }
+          padding='md'
+          position='left'
+          size='50%'
+        >
+          <Navbar>
+            <Navbar.Section grow>
+              {links}
+              <a
+                className={classes.link}
+                onClick={event => {
+                  event.preventDefault()
+                  if (window.confirm('Are you sure to logout?'))
+                    dispatch(logout())
+                }}
+              >
+                <span>Logout</span>
+              </a>
+            </Navbar.Section>
+          </Navbar>
+        </Drawer>
       </Container>
       <Container>
         <Tabs
@@ -261,9 +276,74 @@ export default function Navbar() {
             tab: classes.tab
           }}
         >
-          <Tabs.List>{items}</Tabs.List>
+          <Tabs.List>
+            <Tabs.Tab onClick={() => navigate('/')} value='Home'>
+              Home
+            </Tabs.Tab>
+            <Tabs.Tab onClick={() => navigate('/cars')} value='Cars'>
+              Cars
+            </Tabs.Tab>
+            {user.userToken && (
+              <Tabs.Tab
+                onClick={() => navigate('/dashboard/user')}
+                value='My Rents'
+              >
+                My Rents
+              </Tabs.Tab>
+            )}
+            {user.supplierToken && (
+              <Tabs.Tab
+                onClick={() => navigate('/dashboard/supplier')}
+                value='Dashboard'
+              >
+                Dashboard
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab onClick={() => navigate('/suppliers')} value='Suppliers'>
+              Suppliers
+            </Tabs.Tab>
+            <Tabs.Tab onClick={() => navigate('/blogs')} value='Blogs'>
+              Blogs
+            </Tabs.Tab>
+            {!user.userToken && !user.supplierToken && (
+              <Tabs.Tab onClick={() => navigate('/login/user')} value='Login'>
+                Login
+              </Tabs.Tab>
+            )}
+            <Tabs.Tab onClick={() => navigate('/about')} value='About'>
+              About
+            </Tabs.Tab>
+          </Tabs.List>
         </Tabs>
       </Container>
     </div>
   )
 }
+
+const generalTabs = [
+  { name: 'Home', link: '/' },
+  { name: 'Cars', link: '/cars' },
+  { name: 'Suppliers', link: '/suppliers' },
+  { name: 'Blogs', link: '/blog' },
+  { name: 'Helpdesk', link: '/helpdesk' },
+  { name: 'About', link: '/about' },
+  { name: 'Login', link: '/login/user' }
+]
+const userTabs = [
+  { name: 'Home', link: '/' },
+  { name: 'Cars', link: '/cars' },
+  { name: 'My Rents', link: '/dashboard/user' },
+  { name: 'Suppliers', link: '/suppliers' },
+  { name: 'Blogs', link: '/blog' },
+  { name: 'Helpdesk', link: '/helpdesk' },
+  { name: 'About', link: '/about' }
+]
+const supplierTabs = [
+  { name: 'Home', link: '/' },
+  { name: 'Cars', link: '/cars' },
+  { name: 'Dashboard', link: '/dashboard/supplier' },
+  { name: 'Suppliers', link: '/suppliers' },
+  { name: 'Blogs', link: '/blog' },
+  { name: 'Helpdesk', link: '/helpdesk' },
+  { name: 'About', link: '/about' }
+]

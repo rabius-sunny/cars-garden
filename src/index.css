@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: 'Jura', sans-serif !important;
+}
+
+
 button,
 [type='submit'] {
-  background-color: #4c63f5;
+  background-color: #228be6;
 }

@@ -18,7 +18,11 @@ import {
 import { useAppDispatch, useAppSelector } from 'hooks/redux'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { resetAuthLoading, signinUser, signupUser } from 'redux/userSlice'
+import {
+  resetAuthLoading,
+  signinUser,
+  signupUser
+} from 'redux/slices/userSlice'
 
 export default function User() {
   const navigate = useNavigate()
@@ -93,11 +97,11 @@ export default function User() {
     <Container size='sm'>
       <div className='border-2 py-12 px-4 mt-8 rounded-lg'>
         {isLogin ? (
-          <Title order={1} mb={20} align='center' color='indigo'>
+          <Title order={1} mb={20} align='center' color='blue'>
             Sign in User
           </Title>
         ) : (
-          <Title order={1} mb={20} align='center' color='indigo'>
+          <Title order={1} mb={20} align='center' color='blue'>
             Sign up User
           </Title>
         )}
@@ -134,19 +138,19 @@ export default function User() {
             <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(false)}
-                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-primary bg-lite hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
-                <IconUserCircle size={34} />
+                <IconUserCircle size={34} stroke={1.5} />
                 <span>Create an account</span>
               </button>
             </div>
             <div className='mt-4 flex justify-center'>
               <button
                 onClick={() => navigate('/login/supplier')}
-                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-primary bg-lite hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconTrademark
-                  className='border-2 border-indigo-600 rounded-2xl'
+                  className='border-2 border-primary rounded-2xl'
                   size={30}
                 />
                 <span>Are you a supplier?</span>
@@ -212,7 +216,7 @@ export default function User() {
             <div className='mt-8 flex justify-center'>
               <button
                 onClick={() => setIsLogin(true)}
-                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-primary bg-lite hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconUser size={25} />
                 <span>Login to yours</span>
@@ -221,10 +225,10 @@ export default function User() {
             <div className='mt-4 flex justify-center'>
               <button
                 onClick={() => navigate('/login/supplier')}
-                className='text-indigo-600 bg-indigo-100 hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
+                className='text-primary bg-lite hover:bg-indigo-200 text-lg flex items-center justify-center gap-4 rounded-3xl p-2 pr-3'
               >
                 <IconTrademark
-                  className='border-2 border-indigo-600 rounded-2xl'
+                  className='border-2 border-primary rounded-2xl'
                   size={30}
                 />
                 <span>Are you a supplier?</span>

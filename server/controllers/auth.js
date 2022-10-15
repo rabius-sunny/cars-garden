@@ -32,7 +32,7 @@ export const createSupplier = async (req, res) => {
       email: response.email,
       id: response._id
     })
-    res.status(200).json({ message: 'ok', token })
+    res.status(200).json({ message: 'ok', token, name: response.name })
   } catch (error) {
     res.status(500).json({ error, message: error.message })
   }
@@ -52,7 +52,7 @@ export const loginSupplier = async (req, res) => {
       email: user.email,
       id: user._id
     })
-    res.status(200).json({ message: 'ok', token })
+    res.status(200).json({ message: 'ok', token, name: user.name })
   } catch (error) {
     res.status(404).json({ error, message: error.message })
   }
@@ -80,7 +80,7 @@ export const createUser = async (req, res) => {
       email: response.email,
       id: response._id
     })
-    res.status(200).json({ message: 'ok', token })
+    res.status(200).json({ message: 'ok', token, name: response.name })
   } catch (error) {
     res.status(500).json({ error, message: error.message })
   }
@@ -100,7 +100,7 @@ export const loginUser = async (req, res) => {
       email: user.email,
       id: user._id
     })
-    res.status(200).json({ message: 'ok', token })
+    res.status(200).json({ message: 'ok', token, name: user.name })
   } catch (error) {
     res.status(404).json({ error, message: error.message })
   }
