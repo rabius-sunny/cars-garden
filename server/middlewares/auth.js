@@ -10,6 +10,7 @@ const auth = (req, res, next) => {
         return res.status(403)
       } else {
         req.id = user.id
+        req.email = user.email
       }
     })
     next()

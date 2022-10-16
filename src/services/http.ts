@@ -1,9 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
-const baseURL = process.env.REACT_APP_API_BASE_URL
-const instance = axios.create({
-  baseURL,
-  timeout: 15000
-})
+import { AxiosResponse } from 'axios'
+import instance from 'lib/axiosInstance'
 
 const responseBody = (response: AxiosResponse) => response.data
 

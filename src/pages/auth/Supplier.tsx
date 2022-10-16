@@ -15,7 +15,7 @@ import {
   IconAlertOctagon
 } from '@tabler/icons'
 import { showNotification } from '@mantine/notifications'
-import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -88,7 +88,7 @@ export default function Supplier() {
         color: 'red',
         icon: <IconAlertOctagon size={25} />,
         className: 'my-notification-class',
-        sx: { backgroundColor: '#ff00001c' },
+        sx: { backgroundColor: '#ffb0b0' },
         loading: false
       })
     state.user.supplierToken && navigate('/dashboard/supplier')

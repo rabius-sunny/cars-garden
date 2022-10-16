@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "server": "nodemon server --prefix server",
-    "serve": "concurrently \"yarn server\" \"yarn start\"",
+    "dev": "concurrently \"yarn server\" \"yarn start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -18,7 +18,7 @@ import {
   IconLogout
 } from '@tabler/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { logout } from 'redux/slices/userSlice'
 
 const useStyles = createStyles(theme => ({
@@ -137,7 +137,7 @@ export default function Navsbar() {
   useEffect(() => {
     user.userToken && setTabs(userTabs)
     user.supplierToken && setTabs(supplierTabs)
-  }, [])
+  }, [user.userToken, user.supplierToken])
 
   const links = tabs.map(item => (
     <a
@@ -252,16 +252,18 @@ export default function Navsbar() {
           <Navbar>
             <Navbar.Section grow>
               {links}
-              <a
-                className={classes.link}
-                onClick={event => {
-                  event.preventDefault()
-                  if (window.confirm('Are you sure to logout?'))
-                    dispatch(logout())
-                }}
-              >
-                <span>Logout</span>
-              </a>
+              {(user.supplierToken || user.userToken) && (
+                <a
+                  className={classes.link}
+                  onClick={event => {
+                    event.preventDefault()
+                    if (window.confirm('Are you sure to logout?'))
+                      dispatch(logout())
+                  }}
+                >
+                  <span>Logout</span>
+                </a>
+              )}
             </Navbar.Section>
           </Navbar>
         </Drawer>

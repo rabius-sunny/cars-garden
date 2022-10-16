@@ -1,4 +1,4 @@
-import { useAppSelector } from 'hooks/redux'
+import { useAppSelector } from 'hooks/useReduxHooks'
 import { Navigate } from 'react-router-dom'
 
 export default function PrivateSupRoute({ children }: any) {

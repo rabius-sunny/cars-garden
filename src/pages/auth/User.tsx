@@ -15,7 +15,7 @@ import {
   IconUser,
   IconUserCircle
 } from '@tabler/icons'
-import { useAppDispatch, useAppSelector } from 'hooks/redux'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -87,7 +87,7 @@ export default function User() {
         color: 'red',
         icon: <IconAlertOctagon size={25} />,
         className: 'my-notification-class',
-        sx: { backgroundColor: '#ff00001c' },
+        sx: { backgroundColor: '#ffb0b0' },
         loading: false
       })
     state.user.userToken && navigate('/dashboard/user')

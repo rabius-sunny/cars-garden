@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from 'components/shared/Layout'
 import PrivateSupRoute from './PrivateSupRoute'
 import PrivateUserRoute from './PrivateUserRoute'
+import Cars from 'pages/Cars'
 const Home = lazy(() => import('pages/index'))
 const UserLogin = lazy(() => import('pages/auth/User'))
 const SupplierLogin = lazy(() => import('pages/auth/Supplier'))
@@ -15,6 +16,7 @@ export default function Routings() {
       <Layout>
         <Routes>
           <Route path='/' index element={<Home />} />
+          <Route path='/cars' element={<Cars />} />
           <Route path='/login/user' element={<UserLogin />} />
           <Route path='/login/supplier' element={<SupplierLogin />} />
           <Route

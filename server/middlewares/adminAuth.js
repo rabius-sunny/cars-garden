@@ -10,6 +10,7 @@ const adminAuth = (req, res, next) => {
         return res.status(403).json({ error: err })
       } else {
         req.id = user.id
+        req.email = user.email
       }
     })
     next()

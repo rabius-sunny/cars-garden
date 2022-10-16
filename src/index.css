@@ -6,8 +6,12 @@
   font-family: 'Jura', sans-serif !important;
 }
 
-
 button,
 [type='submit'] {
   background-color: #228be6;
+}
+
+.mantine-InputWrapper-label {
+  font-weight: bold;
+  font-size: 1rem;
 }

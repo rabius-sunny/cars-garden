@@ -3,6 +3,8 @@ import { createStyles, Navbar, Group, Drawer } from '@mantine/core'
 import { IconLogout, IconCar, IconId, IconArrowBarRight } from '@tabler/icons'
 import CreateService from 'pages/supplier/CreateService'
 import OurServices from 'pages/supplier/OurServices'
+import { useAppDispatch } from 'hooks/useReduxHooks'
+import { logout } from 'redux/slices/userSlice'
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef('icon')
@@ -80,6 +82,7 @@ const data = [
 ]
 
 export default function SupplierDashboard() {
+  const dispatch = useAppDispatch()
   const { classes, cx } = useStyles()
   const [active, setActive] = useState<string>('services')
   const [open, setOpen] = useState<boolean>(false)
@@ -140,7 +143,13 @@ export default function SupplierDashboard() {
           </Navbar.Section>
 
           <Navbar.Section className={classes.footer}>
-            <a className={classes.link} onClick={() => alert('logout')}>
+            <a
+              className={classes.link}
+              onClick={() => {
+                if (window.confirm('Are you sure to logout?'))
+                  dispatch(logout())
+              }}
+            >
               <IconLogout className={classes.linkIcon} stroke={1.5} />
               <span>Logout</span>
             </a>
@@ -165,7 +174,13 @@ export default function SupplierDashboard() {
           </Navbar.Section>
 
           <Navbar.Section className={classes.footer}>
-            <a className={classes.link} onClick={() => alert('logout')}>
+            <a
+              className={classes.link}
+              onClick={() => {
+                if (window.confirm('Are you sure to logout?'))
+                  dispatch(logout())
+              }}
+            >
               <IconLogout className={classes.linkIcon} stroke={1.5} />
               <span>Logout</span>
             </a>

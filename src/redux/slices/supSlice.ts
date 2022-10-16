@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 interface userState {
-  supBrand: null
+  supBrand: string | null
+  carImage: string | null
+  imageStatus: 'idle' | 'pending'
 }
 
 const initialState = {
-  supBrand: null
+  supBrand: null,
+  carImage: null,
+  imageStatus: 'idle'
 } as userState
 
 const supSlice = createSlice({
@@ -16,9 +20,28 @@ const supSlice = createSlice({
     },
     removeBrand(state) {
       state.supBrand = null
+    },
+    addCarImage(state, action) {
+      state.carImage = action.payload
+    },
+    removeCarImage(state) {
+      state.carImage = null
+    },
+    makeIdle(state) {
+      state.imageStatus = 'idle'
+    },
+    makePending(state) {
+      state.imageStatus = 'pending'
     }
   }
 })
 
-export const { addBrand, removeBrand } = supSlice.actions
+export const {
+  addBrand,
+  removeBrand,
+  makeIdle,
+  makePending,
+  addCarImage,
+  removeCarImage
+} = supSlice.actions
 export default supSlice.reducer
