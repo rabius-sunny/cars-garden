@@ -1,4 +1,22 @@
-import { Title, Text, Container, Overlay, createStyles } from '@mantine/core'
+import {
+  Title,
+  Text,
+  Container,
+  Overlay,
+  createStyles,
+  useMantineTheme,
+  Autocomplete,
+  Grid,
+  Select
+} from '@mantine/core'
+import { IconChevronDown, IconClock, IconMapPin } from '@tabler/icons'
+import RCalender from 'components/modals/RCalender'
+import { useAppDispatch } from 'hooks/useReduxHooks'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { addDropoff, addLocation, addPickup } from 'redux/slices/rentSlice'
+import cities from 'static/cities'
+import times from 'static/times'
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -91,6 +109,9 @@ const useStyles = createStyles(theme => ({
 
 export default function Hero() {
   const { classes } = useStyles()
+  const theme = useMantineTheme()
+  const [_location, set_location] = useState('')
+  const dispatch = useAppDispatch()
 
   return (
     <div className={classes.wrapper}>
@@ -111,10 +132,87 @@ export default function Hero() {
             Twitter.
           </Text>
         </Container>
-        <Container size={1024}>
-          <div className='mt-4 bg-white w-full h-40 rounded-md'>
-            <h1 className='p-4 text-4xl'>Choose a time and destination</h1>
-          </div>
+        <Container size='lg'>
+          <Grid
+            grow
+            align='center'
+            className='mt-4 p-2 rounded-md'
+            style={{ backgroundColor: theme.colors.blue[6] }}
+          >
+            <Grid.Col span={12} sm={6}>
+              <div>
+                <Autocomplete
+                  icon={<IconMapPin />}
+                  transition='fade'
+                  transitionDuration={150}
+                  maxDropdownHeight={200}
+                  data={cities}
+                  value={_location}
+                  onChange={set_location}
+                  onBlur={() => dispatch(addLocation(_location))}
+                  size='lg'
+                  styles={theme => ({
+                    input: {
+                      fontWeight: 'bold',
+                      fontSize: '1.1rem'
+                    },
+                    item: {
+                      fontWeight: 'bold',
+                      color: 'black'
+                    }
+                  })}
+                  placeholder='pick-up location'
+                  nothingFound='Nothing found'
+                />
+              </div>
+            </Grid.Col>
+            <Grid.Col span={12} sm={6}>
+              <RCalender />
+            </Grid.Col>
+            <Grid.Col span={6} sm={4}>
+              <Select
+                data={times}
+                allowDeselect
+                placeholder='pick-up time'
+                maxDropdownHeight={250}
+                size='lg'
+                onChange={time => dispatch(addPickup(time))}
+                styles={theme => ({
+                  item: {
+                    fontWeight: 600
+                  }
+                })}
+                rightSection={
+                  <IconChevronDown stroke={0.7} className='text-primary' />
+                }
+                icon={<IconClock />}
+              />
+            </Grid.Col>
+            <Grid.Col span={6} sm={4}>
+              <Select
+                data={times}
+                allowDeselect
+                placeholder='drop-off time'
+                maxDropdownHeight={250}
+                size='lg'
+                onChange={time => dispatch(addDropoff(time))}
+                styles={theme => ({
+                  item: {
+                    fontWeight: 600
+                  }
+                })}
+                rightSection={
+                  <IconChevronDown stroke={0.7} className='text-primary' />
+                }
+                icon={<IconClock />}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} sm={4}>
+              <button className='w-full text-white bg-[#008040] p-[9px] text-2xl text-center rounded shadow font-semibold'>
+                Search
+              </button>
+            </Grid.Col>
+          </Grid>
         </Container>
       </div>
     </div>

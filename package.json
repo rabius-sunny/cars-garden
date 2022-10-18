@@ -37,9 +37,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "server": "nodemon server --prefix server",
-    "dev": "concurrently \"yarn server\" \"yarn start\"",
+    "client": "react-scripts start",
+    "server": "cd server && yarn server",
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
