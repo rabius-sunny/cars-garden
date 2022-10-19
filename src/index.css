@@ -6,6 +6,10 @@
   font-family: 'Jura', sans-serif !important;
 }
 
+section {
+  padding: 50px 0;
+}
+
 button,
 [type='submit'] {
   background-color: #228be6;
