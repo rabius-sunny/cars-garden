@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 interface rentState {
-  location: string
+  location: string | null
   days: number | null
   picuptime: string | null
   dropofftime: string | null
 }
 
 const initialState = {
-  location: '',
+  location: null,
   days: null,
   picuptime: null,
   dropofftime: null

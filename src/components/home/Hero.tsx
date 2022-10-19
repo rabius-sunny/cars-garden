@@ -11,9 +11,9 @@ import {
 } from '@mantine/core'
 import { IconChevronDown, IconClock, IconMapPin } from '@tabler/icons'
 import RCalender from 'components/modals/RCalender'
-import { useAppDispatch } from 'hooks/useReduxHooks'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { addDropoff, addLocation, addPickup } from 'redux/slices/rentSlice'
 import cities from 'static/cities'
 import times from 'static/times'
@@ -110,8 +110,31 @@ const useStyles = createStyles(theme => ({
 export default function Hero() {
   const { classes } = useStyles()
   const theme = useMantineTheme()
-  const [_location, set_location] = useState('')
+  const [_location, set_location] = useState<string>('')
+  const [errors, setErrors] = useState({
+    location: false,
+    days: false,
+    picuptime: false,
+    dropofftime: false
+  })
   const dispatch = useAppDispatch()
+  const { location, days, picuptime, dropofftime } = useAppSelector(
+    state => state.rent
+  )
+  const navigate = useNavigate()
+
+  const handleSubmit = () => {
+    setErrors({
+      location: location ? false : true,
+      days: days ? false : true,
+      picuptime: picuptime ? false : true,
+      dropofftime: dropofftime ? false : true
+    })
+    if (!location || !days || !picuptime || !dropofftime) {
+      return
+    }
+    navigate(`/search/location/${location}/duration/${days}`)
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -120,16 +143,21 @@ export default function Hero() {
       <div className={classes.inner}>
         <Container size={580}>
           <Title className={classes.title}>
-            Automated AI code reviews for{' '}
+            Get your prefered car for your{' '}
             <Text component='span' inherit className={classes.highlight}>
-              any stack
-            </Text>
+              dream road
+            </Text>{' '}
+            jouney
           </Title>
 
           <Text size='lg' className={classes.description}>
-            Build more reliable software with AI companion. AI is also trained
-            to detect lazy developers who do nothing and just complain on
-            Twitter.
+            At{' '}
+            <Text component='span' inherit className={classes.highlight}>
+              Car Garden
+            </Text>{' '}
+            we have all the varities of latest cars of your prefer. Get a car
+            and have a greate travel that you dreamed of. So what are you
+            waiting for, search available cars with your preferences.
           </Text>
         </Container>
         <Container size='lg'>
@@ -151,6 +179,8 @@ export default function Hero() {
                   onChange={set_location}
                   onBlur={() => dispatch(addLocation(_location))}
                   size='lg'
+                  defaultValue={location ?? ''}
+                  error={errors.location}
                   styles={theme => ({
                     input: {
                       fontWeight: 'bold',
@@ -167,7 +197,7 @@ export default function Hero() {
               </div>
             </Grid.Col>
             <Grid.Col span={12} sm={6}>
-              <RCalender />
+              <RCalender error={errors.days} />
             </Grid.Col>
             <Grid.Col span={6} sm={4}>
               <Select
@@ -176,7 +206,9 @@ export default function Hero() {
                 placeholder='pick-up time'
                 maxDropdownHeight={250}
                 size='lg'
+                defaultValue={picuptime}
                 onChange={time => dispatch(addPickup(time))}
+                error={errors.picuptime}
                 styles={theme => ({
                   item: {
                     fontWeight: 600
@@ -191,10 +223,12 @@ export default function Hero() {
             <Grid.Col span={6} sm={4}>
               <Select
                 data={times}
+                error={errors.dropofftime}
                 allowDeselect
                 placeholder='drop-off time'
                 maxDropdownHeight={250}
                 size='lg'
+                defaultValue={dropofftime}
                 onChange={time => dispatch(addDropoff(time))}
                 styles={theme => ({
                   item: {
@@ -208,7 +242,18 @@ export default function Hero() {
               />
             </Grid.Col>
             <Grid.Col span={12} sm={4}>
-              <button className='w-full text-white bg-[#008040] p-[9px] text-2xl text-center rounded shadow font-semibold'>
+              <button
+                onClick={handleSubmit}
+                onBlur={() =>
+                  setErrors({
+                    location: false,
+                    days: false,
+                    picuptime: false,
+                    dropofftime: false
+                  })
+                }
+                className='w-full text-white bg-[#008040] p-[9px] text-2xl text-center rounded shadow font-semibold'
+              >
                 Search
               </button>
             </Grid.Col>

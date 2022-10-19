@@ -5,14 +5,16 @@ import {
   IconChecks,
   IconDoor,
   IconGauge,
-  IconMapPin,
+  IconLocation,
   IconSettings,
   IconUser
 } from '@tabler/icons'
 import EmailQuote from 'components/modals/EmailQuote'
 import ImportantInfo from 'components/modals/ImportantInfo'
+import { useAppSelector } from 'hooks/useReduxHooks'
 
 export default function CarInfo({ car, search }: any) {
+  const { days, location } = useAppSelector(state => state.rent)
   const {
     ac,
     charge,
@@ -32,14 +34,14 @@ export default function CarInfo({ car, search }: any) {
       <div className='flex flex-row-reverse md:flex-row justify-between'>
         {/* Image and mobile deal details */}
         <div>
-          <img src={image} className='h-28' />
+          <img src={image} className='h-24 sm:h-36' />
           <div className='block md:hidden text-end'>
             <p className='text-gray-500 text-sm'>
-              Price for <span className='font-bold'>{1}</span> days:
+              Price for <span className='font-bold'>{days || 1}</span> days:
             </p>
             <h1 className='text-2xl stroke font-extrabold'>
               {'$'}
-              {charge * 1}
+              {charge * (days || 1)}
             </h1>
             <p className='text-[#1b8639] flex font-semibold items-center justify-end'>
               <IconChecks size={25} stroke={1.2} className='hidden sm:flex' />
@@ -56,7 +58,7 @@ export default function CarInfo({ car, search }: any) {
         </div>
 
         {/* Name and feature details */}
-        <div>
+        <div className=' w-1/2 sm:w-auto'>
           <div className='flex items-baseline flex-wrap gap-1 mb-2'>
             <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-primary'>
               {name}
@@ -102,18 +104,18 @@ export default function CarInfo({ car, search }: any) {
             </div>
           </div>
           <div className='mt-4 mb-2 text-sm sm:text-lg text-primary flex items-center justify-start md:justify-center font-semibold'>
-            <IconMapPin /> <span>Destination location</span>
+            <IconLocation /> <span>{location}</span>
           </div>
         </div>
 
         {/* Medium device deal details */}
         <div className='hidden md:block self-end text-end'>
           <p className='text-gray-500 text-sm'>
-            Price for <span className='font-bold'>{1}</span> days:
+            Price for <span className='font-bold'>{days || 1}</span> days:
           </p>
           <h1 className='text-3xl stroke font-extrabold'>
             {'$'}
-            {charge * 1}
+            {charge * (days || 1)}
           </h1>
           <p className='text-[#1b8639] flex font-semibold items-center'>
             <IconChecks size={25} stroke={1.2} />

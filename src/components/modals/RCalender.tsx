@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { useAppDispatch } from 'hooks/useReduxHooks'
 import { addDays } from 'redux/slices/rentSlice'
 
-export default function RCalender() {
+export default function RCalender({ error }: any) {
   const [value, setValue] = useState<[Date, Date]>([new Date(), new Date()])
   const [seted, setSeted] = useState(false)
   const [open, setOpen] = useState(false)
@@ -38,7 +38,9 @@ export default function RCalender() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className='hover:bg-lite w-full bg-white py-[6px] px-4 text- text-start rounded shadow text-gray-600'
+        className={`hover:bg-lite w-full bg-white py-[6px] px-4 text- text-start rounded shadow text-gray-600 ${
+          error && 'ring-1 ring-[red]'
+        }`}
       >
         <div className='flex items-center gap-4'>
           <IconCalendar size={30} />
@@ -48,8 +50,8 @@ export default function RCalender() {
             </div>
             {seted ? (
               <div className='font-bold text-sm'>
-                {dayjs(value[0]).format('D MMM, YY')} to{' '}
-                {dayjs(value[1]).format('D MMM, YY')}
+                {dayjs(value[0]).format('ddd DD MMM')} to{' '}
+                {dayjs(value[1]).format('ddd DD MMM')}
               </div>
             ) : (
               <div>select pic-up to drop-up date</div>

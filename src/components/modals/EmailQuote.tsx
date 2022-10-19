@@ -4,10 +4,12 @@ import {
   IconBriefcase,
   IconDoor,
   IconGauge,
+  IconLocation,
   IconMailForward,
   IconSettings,
   IconUser
 } from '@tabler/icons'
+import { useAppSelector } from 'hooks/useReduxHooks'
 import { useState } from 'react'
 
 export default function EmailQuote({ car }: any) {
@@ -26,6 +28,7 @@ export default function EmailQuote({ car }: any) {
     type,
     _id
   } = car
+  const { location, days } = useAppSelector(state => state.rent)
 
   return (
     <>
@@ -35,7 +38,7 @@ export default function EmailQuote({ car }: any) {
         color='cyan'
         onClick={() => setOpen(true)}
       >
-        <IconMailForward size={25} />
+        <IconMailForward size={22} />
         <span className='pl-1 font-bold'>Email quote</span>
       </Button>
 
@@ -94,7 +97,10 @@ export default function EmailQuote({ car }: any) {
                 </Avatar>
                 <h2 className='font-extrabold'>{suppliername}</h2>
               </div>
-              <div className='pr-10 sm:pr-24'>{'location'}</div>
+              <div className='pr-10 sm:pr-24 flex items-center'>
+                <IconLocation size={18} className='text-gray-500 mr-1' />{' '}
+                {location}
+              </div>
             </div>
           </div>
           <div className='col-span-2 md:col-span-1'>
@@ -107,10 +113,12 @@ export default function EmailQuote({ car }: any) {
               <p>So we can call you if any problems come up</p>
               <hr className='my-4' />
               <div className='flex items-center justify-between'>
-                <p className='font-extrabold text-lg'>Price for {1} days:</p>
+                <p className='font-extrabold text-lg'>
+                  Price for {days || 1} days:
+                </p>
                 <p className='font-bold text-3xl'>
                   {'$'}
-                  {charge}
+                  {charge * (days || 1)}
                 </p>
               </div>
               <div className='mt-4'>

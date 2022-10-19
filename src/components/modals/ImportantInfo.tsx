@@ -19,7 +19,7 @@ export default function ImportantInfo() {
         onClick={() => setOpen(true)}
         className=' hover:bg-transparent md:hover:bg-lite p-0 md:p-2 hover:underline md:hover:no-underline'
       >
-        <IconInfoCircle size={25} />
+        <IconInfoCircle size={22} />
         <span className='pl-1 font-bold'>Important ack.</span>
       </Button>
 
