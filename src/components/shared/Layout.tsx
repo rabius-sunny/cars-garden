@@ -1,12 +1,16 @@
+import { useAppSelector } from 'hooks/useReduxHooks'
 import { Footer } from './Footer'
 import Navbar from './Navbar'
 
 export default function Layout({ children }: any) {
+  const status = useAppSelector(state => state.utils.isHome)
   return (
     <div>
-      <header>
-        <Navbar />
-      </header>
+      {!status && (
+        <header>
+          <Navbar />
+        </header>
+      )}
       {children}
       <footer>
         <Footer />

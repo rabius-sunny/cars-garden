@@ -11,6 +11,7 @@ import {
 } from '@mantine/core'
 import { IconChevronDown, IconClock, IconMapPin } from '@tabler/icons'
 import RCalender from 'components/modals/RCalender'
+import Navsbar from 'components/shared/Navbar'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -21,14 +22,12 @@ import times from 'static/times'
 const useStyles = createStyles(theme => ({
   wrapper: {
     position: 'relative',
-    paddingTop: 180,
     paddingBottom: 130,
     backgroundImage: "url('/assets/images/homebg.jpg')",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 
     '@media (max-width: 520px)': {
-      paddingTop: 80,
       paddingBottom: 50
     }
   },
@@ -141,6 +140,7 @@ export default function Hero() {
       <Overlay color='#000' opacity={0.5} zIndex={1} />
 
       <div className={classes.inner}>
+        <Navsbar atHome={true} />
         <Container size={580}>
           <Title className={classes.title}>
             Get your prefered car for your{' '}

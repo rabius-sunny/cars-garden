@@ -21,111 +21,100 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { logout } from 'redux/slices/userSlice'
 
-const useStyles = createStyles(theme => ({
-  header: {
-    paddingTop: theme.spacing.sm,
-    backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    borderBottom: `1px solid ${
-      theme.colorScheme === 'dark' ? 'transparent' : theme.colors.gray[2]
-    }`
-  },
-
-  mainSection: {
-    paddingBottom: theme.spacing.sm
-  },
-  link: {
-    ...theme.fn.focusStyles(),
-    cursor: 'pointer',
-    display: 'block',
-    textDecoration: 'none',
-    fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[2]
-        : theme.colors.gray[8],
-    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-    fontWeight: 500,
-    width: '100%',
-
-    '&:hover': {
-      backgroundColor: theme.fn.variant({
-        variant: 'light',
-        color: theme.primaryColor
-      }).background,
-
-      color: theme.primaryColor
-    }
-  },
-  linkActive: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.variant({
-        variant: 'filled',
-        color: theme.primaryColor
-      }).background,
-      color: 'white'
-    }
-  },
-  user: {
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-    transition: 'background-color 100ms ease'
-  },
-  username: {
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none'
-    }
-  },
-
-  burger: {
-    background: 'transparent',
-    [theme.fn.largerThan('sm')]: {
-      display: 'none'
-    }
-  },
-
-  userActive: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
-  },
-
-  tabs: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none'
-    }
-  },
-
-  tabsList: {
-    borderBottom: '0 !important'
-  },
-
-  tab: {
-    fontWeight: 500,
-    height: 38,
-    backgroundColor: 'transparent',
-
-    '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[5]
-          : theme.colors.gray[1]
+export default function Navsbar({ atHome }: any) {
+  const useStyles = createStyles(theme => ({
+    header: {
+      paddingTop: theme.spacing.sm,
+      backgroundColor: atHome ? '#7470ff38' : theme.colors.gray[0],
+      borderBottom: atHome ? 'none' : `1px solid ${theme.colors.gray[2]}`
     },
 
-    '&[data-active]': {
-      backgroundColor:
-        theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-      borderColor:
+    mainSection: {
+      paddingBottom: theme.spacing.sm
+    },
+    link: {
+      ...theme.fn.focusStyles(),
+      cursor: 'pointer',
+      display: 'block',
+      textDecoration: 'none',
+      fontSize: theme.fontSizes.sm,
+      color:
         theme.colorScheme === 'dark'
-          ? theme.colors.dark[7]
-          : theme.colors.gray[2]
-    }
-  }
-}))
+          ? theme.colors.dark[2]
+          : theme.colors.gray[8],
+      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+      fontWeight: 'bold',
+      width: '100%',
 
-export default function Navsbar() {
+      '&:hover': {
+        backgroundColor: theme.fn.variant({
+          variant: 'light',
+          color: theme.primaryColor
+        }).background,
+
+        color: theme.primaryColor
+      }
+    },
+    linkActive: {
+      '&, &:hover': {
+        backgroundColor: theme.fn.variant({
+          variant: 'filled',
+          color: theme.primaryColor
+        }).background,
+        color: 'white'
+      }
+    },
+    user: {
+      display: 'flex',
+      alignItems: 'center',
+      color: atHome ? theme.white : theme.black,
+      transition: 'background-color 100ms ease'
+    },
+    username: {
+      [theme.fn.smallerThan('xs')]: {
+        display: 'none'
+      }
+    },
+
+    burger: {
+      background: 'transparent',
+      [theme.fn.largerThan('sm')]: {
+        display: 'none'
+      }
+    },
+
+    userActive: {
+      backgroundColor:
+        theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
+    },
+
+    tabs: {
+      [theme.fn.smallerThan('sm')]: {
+        display: 'none'
+      }
+    },
+
+    tabsList: {
+      borderBottom: '0 !important'
+    },
+
+    tab: {
+      fontWeight: 'bold',
+      fontSize: '1.1rem',
+      height: 38,
+      color: atHome ? 'white' : theme.colors.gray[7],
+      backgroundColor: 'transparent',
+
+      '&:hover': {
+        backgroundColor: atHome ? '#ffffff42' : theme.white
+      },
+
+      '&[data-active]': {
+        backgroundColor: atHome ? 'transparent' : theme.white,
+        borderColor: theme.colors.gray[2]
+      }
+    }
+  }))
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { classes, cx } = useStyles()
@@ -279,9 +268,9 @@ export default function Navsbar() {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab onClick={() => navigate('/')} value='Home'>
+            {/* <Tabs.Tab onClick={() => navigate('/')} value='Home'>
               Home
-            </Tabs.Tab>
+            </Tabs.Tab> */}
             <Tabs.Tab onClick={() => navigate('/cars')} value='Cars'>
               Cars
             </Tabs.Tab>
