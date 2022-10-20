@@ -1,6 +1,10 @@
 import Brands from 'components/home/Brands'
 import Cta from 'components/home/Cta'
+import Features from 'components/home/Features'
 import Hero from 'components/home/Hero'
+import Locations from 'components/home/Locations'
+import Qa from 'components/home/Qa'
+import Reviews from 'components/home/Reviews'
 import { useAppDispatch } from 'hooks/useReduxHooks'
 import { useEffect } from 'react'
 import { atHome, notHome } from 'redux/slices/utilSlice'
@@ -20,6 +24,10 @@ export default function Home() {
       <Hero />
       <Brands />
       <Cta />
+      <Features />
+      <Locations />
+      <Qa />
+      <Reviews />
     </div>
   )
 }
