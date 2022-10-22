@@ -20,7 +20,7 @@ const useStyles = createStyles(theme => ({
   },
 
   logo: {
-    maxWidth: 200,
+    maxWidth: 240,
 
     [theme.fn.smallerThan('sm')]: {
       display: 'flex',
@@ -137,14 +137,17 @@ export function Footer() {
         <div className={classes.logo}>
           <img src='/assets/images/logo.png' alt='site logo' />
           <Text size='xs' color='dimmed' className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+            At Car Garden we have all the varities of latest cars of your
+            prefer. Get a car and have a greate travel that you dreamed of. So
+            what are you waiting for, search available cars with your
+            preferences.
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text color='dimmed' size='sm'>
-          © 2020 mantine.dev. All rights reserved.
+          © 2022 Cars Gardern. All rights reserved.
         </Text>
 
         <Group spacing={0} className={classes.social} position='right' noWrap>
@@ -180,28 +183,28 @@ const data = [
         link: '#'
       },
       {
-        label: 'Forums',
+        label: 'Blogs',
         link: '#'
       }
     ]
   },
   {
-    title: 'Project',
+    title: 'Services',
     links: [
       {
-        label: 'Contribute',
+        label: 'Car Hire',
         link: '#'
       },
       {
-        label: 'Media assets',
+        label: 'Wiring',
         link: '#'
       },
       {
-        label: 'Changelog',
+        label: 'Denting & Painting',
         link: '#'
       },
       {
-        label: 'Releases',
+        label: 'Lubricating',
         link: '#'
       }
     ]
@@ -222,7 +225,7 @@ const data = [
         link: '#'
       },
       {
-        label: 'GitHub discussions',
+        label: 'Follow Facebook',
         link: '#'
       }
     ]

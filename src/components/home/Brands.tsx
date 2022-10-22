@@ -3,7 +3,7 @@ export default function Brands() {
   return (
     <section>
       <Container>
-        <h1 className='font-extrabold text-center text-5xl text-primary'>
+        <h1 className='font-extrabold text-center text-4xl text-primary'>
           Cars Garden{' '}
           <span className='text-black'>
             connects you to the biggest brands in car hire.

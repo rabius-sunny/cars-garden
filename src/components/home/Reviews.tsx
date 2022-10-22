@@ -10,7 +10,7 @@ export default function Reviews() {
 
   return (
     <Container size='lg'>
-      <section className='bg-primary rounded-lg px-4'>
+      <section className='bg-primary rounded-lg px-4 pt-16 pb-20'>
         <h2 className='text-center text-lg font-semibold text-white uppercase'>
           reviews
         </h2>
@@ -48,11 +48,7 @@ export default function Reviews() {
               className='bg-white rounded-lg px-2 py-3 mx-2 md:mx-4 w-80 flex items-start gap-2'
             >
               <div className='w-36'>
-                <img
-                  src={item.photo}
-                  alt='reviewer'
-                  className='h-16 w-16 rounded-full'
-                />
+                <img src={item.photo} alt='reviewer' className='rounded-full' />
               </div>
               <div>
                 <h1 className='text-lg font-bold text-gray-500'>{item.name}</h1>
@@ -60,7 +56,8 @@ export default function Reviews() {
                   CEO @{item.company}
                 </p>
                 <p className='text-gray-600 text-sm'>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Dolores, libero disit amero aphixedium.
                 </p>
               </div>
             </Carousel.Slide>
