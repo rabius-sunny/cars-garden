@@ -17,12 +17,13 @@ import {
 } from '@tabler/icons'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { redirect, useLocation, useNavigate } from 'react-router-dom'
 import {
   resetAuthLoading,
   signinUser,
   signupUser
 } from 'redux/slices/userSlice'
+import { removeFrom } from 'redux/slices/utilSlice'
 
 export default function User() {
   const navigate = useNavigate()
@@ -90,7 +91,12 @@ export default function User() {
         sx: { backgroundColor: '#ffb0b0' },
         loading: false
       })
-    state.user.userToken && navigate('/dashboard/user')
+    if (state.utils.from && state.user.userToken) {
+      navigate(state.utils.from)
+      dispatch(removeFrom())
+    } else if (!state.utils.from && state.user.userToken) {
+      navigate('/')
+    }
   }, [state.user.authLoading])
 
   return (

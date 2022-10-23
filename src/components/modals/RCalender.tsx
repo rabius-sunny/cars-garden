@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { RangeCalendar } from '@mantine/dates'
 import { Button, Group, Modal, useMantineTheme } from '@mantine/core'
 import { IconCalendar } from '@tabler/icons'
 import dayjs from 'dayjs'
-import { useAppDispatch } from 'hooks/useReduxHooks'
-import { addDays } from 'redux/slices/rentSlice'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
+import { addDays, addFromDate, addTodate } from 'redux/slices/rentSlice'
 
 export default function RCalender({ error }: any) {
-  const [value, setValue] = useState<[Date, Date]>([new Date(), new Date()])
-  const [seted, setSeted] = useState(false)
+  const [value, setValue] = useState<[Date | null, Date | null]>([null, null])
   const [open, setOpen] = useState(false)
   const dispatch = useAppDispatch()
+  const { fromdate, todate } = useAppSelector(state => state.rent)
 
   const onChange = (dates: any) => {
     setValue(dates)
+    dispatch(addFromDate(dates[0]))
+    dispatch(addTodate(dates[1]))
     if ((dates[0], dates[1] !== null)) {
       const bookingDate = dates[0]?.getTime()
       const returnDate = dates[1]?.getTime()
@@ -21,14 +23,6 @@ export default function RCalender({ error }: any) {
         const days = (returnDate - bookingDate) / 1000 / 60 / 60 / 24
         dispatch(addDays(days + 1))
       }
-    }
-    if (
-      (dates[0], dates[1] !== null) &&
-      (dates[0].getDate(), dates[1].getDate()) !== new Date().getDate()
-    ) {
-      setSeted(true)
-    } else {
-      setSeted(false)
     }
   }
 
@@ -48,10 +42,10 @@ export default function RCalender({ error }: any) {
             <div>
               <span className='font-bold'>Choose Date</span>
             </div>
-            {seted ? (
+            {fromdate && todate ? (
               <div className='font-bold text-sm'>
-                {dayjs(value[0]).format('ddd DD MMM')} to{' '}
-                {dayjs(value[1]).format('ddd DD MMM')}
+                {dayjs(fromdate).format('ddd DD MMM')} to{' '}
+                {dayjs(todate).format('ddd DD MMM')}
               </div>
             ) : (
               <div>select pic-up to drop-up date</div>

@@ -11,9 +11,15 @@ import {
 } from '@tabler/icons'
 import EmailQuote from 'components/modals/EmailQuote'
 import ImportantInfo from 'components/modals/ImportantInfo'
-import { useAppSelector } from 'hooks/useReduxHooks'
+import useAuth from 'hooks/useAuth'
+import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
+import { useNavigate } from 'react-router-dom'
+import { addFrom } from 'redux/slices/utilSlice'
 
 export default function CarInfo({ car, search }: any) {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const auth = useAuth()
   const { days, location } = useAppSelector(state => state.rent)
   const {
     ac,
@@ -26,9 +32,14 @@ export default function CarInfo({ car, search }: any) {
     seats,
     smallBags,
     supplier: { name: suppliername },
-    type,
-    _id
+    type
   } = car
+  const handleRedirect = () => {
+    if (!auth) {
+      dispatch(addFrom(`/deal/details/car/${name}`))
+    }
+    navigate(`/deal/details/car/${name}`)
+  }
   return (
     <div className='my-4 border-[1px] hover:ring-[2px] hover:ring-gray-300 border-gray-300 border-opacity-70 p-3 rounded-lg hover:shadow-lg hover:border-opacity-100'>
       <div className='flex flex-row-reverse md:flex-row justify-between'>
@@ -49,7 +60,12 @@ export default function CarInfo({ car, search }: any) {
             </p>
             {search && (
               <div className='mt-2'>
-                <Button color='blue' variant='filled' className='bg-primary'>
+                <Button
+                  onClick={() => navigate(`/deal/details/car/${name}`)}
+                  color='blue'
+                  variant='filled'
+                  className='bg-primary'
+                >
                   Deal details
                 </Button>
               </div>
@@ -123,7 +139,12 @@ export default function CarInfo({ car, search }: any) {
           </p>
           {search && (
             <div className='mt-4'>
-              <Button color='blue' variant='filled' className='bg-primary'>
+              <Button
+                onClick={handleRedirect}
+                color='blue'
+                variant='filled'
+                className='bg-primary'
+              >
                 Deal details
               </Button>
             </div>

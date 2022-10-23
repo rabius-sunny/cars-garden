@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 interface utilState {
   isHome: boolean
+  from: string | null
 }
 
 const initialState = {
-  isHome: true
+  isHome: true,
+  from: null
 } as utilState
 
 const utilSlice = createSlice({
@@ -16,9 +18,15 @@ const utilSlice = createSlice({
     },
     notHome(state) {
       state.isHome = false
+    },
+    addFrom(state, action) {
+      state.from = action.payload
+    },
+    removeFrom(state) {
+      state.from = null
     }
   }
 })
 
-export const { atHome, notHome } = utilSlice.actions
+export const { atHome, notHome, addFrom, removeFrom } = utilSlice.actions
 export default utilSlice.reducer

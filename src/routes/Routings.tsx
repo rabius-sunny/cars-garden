@@ -5,6 +5,7 @@ import PrivateSupRoute from './PrivateSupRoute'
 import PrivateUserRoute from './PrivateUserRoute'
 import Cars from 'pages/Cars'
 import SearchResult from 'pages/SearchResult'
+import DealDetails from 'pages/DealDetails'
 const Home = lazy(() => import('pages/index'))
 const UserLogin = lazy(() => import('pages/auth/User'))
 const SupplierLogin = lazy(() => import('pages/auth/Supplier'))
@@ -37,6 +38,14 @@ export default function Routings() {
             element={
               <PrivateUserRoute>
                 <UserDashboard />
+              </PrivateUserRoute>
+            }
+          />
+          <Route
+            path='/deal/details/car/:carname'
+            element={
+              <PrivateUserRoute>
+                <DealDetails />
               </PrivateUserRoute>
             }
           />

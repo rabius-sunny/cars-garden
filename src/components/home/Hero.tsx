@@ -175,11 +175,9 @@ export default function Hero() {
                   transitionDuration={150}
                   maxDropdownHeight={200}
                   data={cities}
-                  value={_location}
-                  onChange={set_location}
-                  onBlur={() => dispatch(addLocation(_location))}
+                  onBlur={e => dispatch(addLocation(e.target.value))}
                   size='lg'
-                  defaultValue={location ?? ''}
+                  defaultValue={location || ''}
                   error={errors.location}
                   styles={theme => ({
                     input: {
