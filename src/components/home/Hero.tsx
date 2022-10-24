@@ -117,19 +117,25 @@ export default function Hero() {
     dropofftime: false
   })
   const dispatch = useAppDispatch()
-  const { location, days, picuptime, dropofftime } = useAppSelector(
-    state => state.rent
-  )
+  const { location, days, fromdate, todate, picuptime, dropofftime } =
+    useAppSelector(state => state.rent)
   const navigate = useNavigate()
 
   const handleSubmit = () => {
     setErrors({
       location: location ? false : true,
-      days: days ? false : true,
+      days: fromdate && todate ? false : true,
       picuptime: picuptime ? false : true,
       dropofftime: dropofftime ? false : true
     })
-    if (!location || !days || !picuptime || !dropofftime) {
+    if (
+      !location ||
+      !days ||
+      !fromdate ||
+      !todate ||
+      !picuptime ||
+      !dropofftime
+    ) {
       return
     }
     navigate(`/search/location/${location}/duration/${days}`)

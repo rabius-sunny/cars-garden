@@ -51,3 +51,17 @@ export const getCars = async (req, res) => {
     res.status(500).json({ error, message: error.message })
   }
 }
+export const getSingleCar = async (req, res) => {
+  try {
+    const response = await carModel
+      .findById(req.params.id, {
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0
+      })
+      .populate('supplier', 'name -_id')
+    res.status(200).json({ response })
+  } catch (error) {
+    res.status(500).json({ error, message: error.message })
+  }
+}

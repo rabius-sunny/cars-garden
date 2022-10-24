@@ -78,6 +78,7 @@ export default function User() {
   useEffect(() => {
     dispatch(resetAuthLoading())
   }, [])
+
   useEffect(() => {
     state.user.authLoading === 'error' &&
       showNotification({

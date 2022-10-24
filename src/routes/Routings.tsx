@@ -42,7 +42,7 @@ export default function Routings() {
             }
           />
           <Route
-            path='/deal/details/car/:carname'
+            path='/deal/details/car/:carname/:id'
             element={
               <PrivateUserRoute>
                 <DealDetails />

@@ -32,13 +32,14 @@ export default function CarInfo({ car, search }: any) {
     seats,
     smallBags,
     supplier: { name: suppliername },
-    type
+    type,
+    _id
   } = car
   const handleRedirect = () => {
     if (!auth) {
       dispatch(addFrom(`/deal/details/car/${name}`))
     }
-    navigate(`/deal/details/car/${name}`)
+    navigate(`/deal/details/car/${name}/${_id}`)
   }
   return (
     <div className='my-4 border-[1px] hover:ring-[2px] hover:ring-gray-300 border-gray-300 border-opacity-70 p-3 rounded-lg hover:shadow-lg hover:border-opacity-100'>

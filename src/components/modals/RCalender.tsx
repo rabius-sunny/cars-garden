@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { RangeCalendar } from '@mantine/dates'
 import { Button, Group, Modal, useMantineTheme } from '@mantine/core'
-import { IconCalendar } from '@tabler/icons'
+import { IconArrowNarrowRight, IconCalendar } from '@tabler/icons'
 import dayjs from 'dayjs'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { addDays, addFromDate, addTodate } from 'redux/slices/rentSlice'
@@ -43,8 +43,9 @@ export default function RCalender({ error }: any) {
               <span className='font-bold'>Choose Date</span>
             </div>
             {fromdate && todate ? (
-              <div className='font-bold text-sm'>
-                {dayjs(fromdate).format('ddd DD MMM')} to{' '}
+              <div className='font-bold flex items-center gap-2 text-sm'>
+                {dayjs(fromdate).format('ddd DD MMM')}{' '}
+                <IconArrowNarrowRight size={22} />
                 {dayjs(todate).format('ddd DD MMM')}
               </div>
             ) : (

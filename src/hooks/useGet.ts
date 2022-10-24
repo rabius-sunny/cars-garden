@@ -3,7 +3,7 @@ import requests from 'services/http'
 
 type StatusType = 'idle' | 'pending' | 'success'
 const useGet = (link: string, dep?: string) => {
-  const [data, setData] = useState<[] | null>(null)
+  const [data, setData] = useState<[] | null | any>(null)
   const [status, setStatus] = useState<StatusType>('idle')
   const [error, setError] = useState<string | null>(null)
 
