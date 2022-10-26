@@ -23,15 +23,19 @@ import {
   signinSupplier,
   signupSupplier
 } from 'redux/slices/userSlice'
+import DropZone from 'components/shared/DropZone'
 
 export default function Supplier() {
   const navigate = useNavigate()
   const [isLogin, setIsLogin] = useState(true)
   const dispatch = useAppDispatch()
+  const [brandImage, setBrandImage] = useState<any>(null)
+  const [imageLoading, setImageLoading] = useState(false)
   const state = useAppSelector(state => state)
   interface formData {
     name: string
     email: string
+    password: string
     phone: string
     phone2: string
     address: string
@@ -72,7 +76,8 @@ export default function Supplier() {
     }
   })
   const handleLogin = (values: loginData) => dispatch(signinSupplier(values))
-  const handleSignup = (values: formData) => dispatch(signupSupplier(values))
+  const handleSignup = (values: formData) =>
+    dispatch(signupSupplier({ ...values, brand: brandImage }))
 
   useEffect(() => {
     dispatch(resetAuthLoading())
@@ -200,8 +205,26 @@ export default function Supplier() {
                 placeholder='street, zip, state, country'
                 {...signupForm.getInputProps('address')}
               />
+              <Space h='lg' />
 
-              <Button mt={20} type='submit'>
+              <p className='mt-3 font-bold'>
+                Brand logo <span className='text-red-500'>*</span>
+              </p>
+              <DropZone
+                setImage={setBrandImage}
+                imageLoading={imageLoading}
+                setImageLoading={setImageLoading}
+              />
+
+              <Button
+                mt={20}
+                type='submit'
+                className={
+                  state.user.authLoading === 'pending'
+                    ? 'pointer-events-none'
+                    : ''
+                }
+              >
                 {state.user.authLoading === 'pending' ? (
                   <Loader size='xs' color='white' />
                 ) : (

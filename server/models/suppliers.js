@@ -27,6 +27,10 @@ const supplierSchema = new Schema(
       type: String,
       required: true
     },
+    brand: {
+      type: String,
+      required: true
+    },
     cars: [
       {
         type: Schema.Types.ObjectId,

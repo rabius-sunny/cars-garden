@@ -10,7 +10,7 @@ const getAdminToken = user => sign(user, process.env.ADMIN_SECRET_KEY)
 const getUserToken = user => sign(user, process.env.SECRET_KEY)
 
 export const createSupplier = async (req, res) => {
-  const { name, email, phone, phone2, address, password } = req.body
+  const { name, email, phone, phone2, address, password, brand } = req.body
 
   try {
     const checkEmail = await supplierModel.findOne({ email })
@@ -26,7 +26,8 @@ export const createSupplier = async (req, res) => {
       password: hash,
       phone,
       phone2,
-      address
+      address,
+      brand
     })
     const token = getAdminToken({
       email: response.email,

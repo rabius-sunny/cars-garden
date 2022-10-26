@@ -7,16 +7,13 @@ import {
   IMAGE_MIME_TYPE,
   FileWithPath
 } from '@mantine/dropzone'
-import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
+import { useAppSelector } from 'hooks/useReduxHooks'
 import axios from 'axios'
-import { addCarImage, makePending, makeIdle } from 'redux/slices/supSlice'
 
-export default function DropZone(props: Partial<DropzoneProps>) {
+export default function DropZone(props: Partial<DropzoneProps> | any) {
   const [image, setImage] = useState<FileWithPath[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const theme = useMantineTheme()
-  const dispatch = useAppDispatch()
-  const status = useAppSelector(state => state.sup.imageStatus)
 
   const previews = image.map((file, index) => {
     const imageUrl = URL.createObjectURL(file)
@@ -30,7 +27,7 @@ export default function DropZone(props: Partial<DropzoneProps>) {
   })
   const handleFile = (file: any) => {
     setLoading(true)
-    dispatch(makePending())
+    props.setImageLoading(true)
     const image = new FormData()
     image.set('key', process.env.REACT_APP_IMG_URL || '')
     image.append('image', file[0])
@@ -38,13 +35,13 @@ export default function DropZone(props: Partial<DropzoneProps>) {
     axios
       .post('https://api.imgbb.com/1/upload', image)
       .then(res => {
-        dispatch(addCarImage(res.data.data.display_url.toString()))
+        props.setImage(res.data.data.display_url.toString())
         setLoading(false)
-        dispatch(makeIdle())
+        props.setImageLoading(false)
       })
       .catch(err => {
         setLoading(false)
-        dispatch(makeIdle())
+        props.setImageLoading(false)
         alert('error occured, try again')
       })
   }
@@ -112,7 +109,7 @@ export default function DropZone(props: Partial<DropzoneProps>) {
           </div>
         </Group>
       </Dropzone>
-      {status === 'idle' && (
+      {!props.imageloading && (
         <SimpleGrid
           cols={4}
           breakpoints={[{ maxWidth: 'sm', cols: 1 }]}

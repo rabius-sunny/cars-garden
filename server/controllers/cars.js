@@ -45,6 +45,7 @@ export const getCars = async (req, res) => {
           __v: 0
         }
       )
+      .sort({ updatedAt: -1 })
       .populate('supplier', 'name -_id')
     res.status(200).json({ response })
   } catch (error) {

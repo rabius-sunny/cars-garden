@@ -3,21 +3,17 @@ import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { IconAlertOctagon } from '@tabler/icons'
 import DropZone from 'components/shared/DropZone'
-import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import useToken from 'hooks/useToken'
 import { useState } from 'react'
-import { removeCarImage } from 'redux/slices/supSlice'
 import requests from 'services/http'
 
 export default function CreateService() {
-  const { carImage: image, imageStatus: status } = useAppSelector(
-    state => state.sup
-  )
-  const dispatch = useAppDispatch()
   const [gear, setGear] = useState<string | null>('auto')
   const [ac, setAc] = useState<string | null>('yes')
   const [type, setType] = useState<string | null>('small')
   const [loading, setLoading] = useState(false)
+  const [image, setImage] = useState<any>(null)
+  const [imageLoading, setImageLoading] = useState(false)
   const config = useToken()
 
   const signinForm = useForm({
@@ -47,13 +43,12 @@ export default function CreateService() {
       .then(data => {
         if (data.message === 'ok') {
           signinForm.reset()
-          dispatch(removeCarImage())
           setLoading(false)
           window.scrollTo({ top: 80, behavior: 'smooth' })
           showNotification({
             id: 'hello-there',
             autoClose: 5000,
-            title: 'Error',
+            title: 'Done',
             message: 'Successfully created a service',
             color: 'green',
             icon: <IconAlertOctagon size={25} />,
@@ -164,14 +159,14 @@ export default function CreateService() {
             {...signinForm.getInputProps('charge')}
           />
           <Space h='lg' />
-          <DropZone />
+          <DropZone
+            setImage={setImage}
+            setImageLoading={setImageLoading}
+            imageloading={imageLoading}
+          />
           <Space h='lg' />
 
-          <Button
-            disabled={status === 'pending' || loading}
-            mt={20}
-            type='submit'
-          >
+          <Button disabled={imageLoading || loading} mt={20} type='submit'>
             Submit
           </Button>
         </form>
