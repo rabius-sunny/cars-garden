@@ -15,9 +15,10 @@ import {
   IconChevronDown,
   IconAlignLeft,
   IconEdit,
-  IconLogout
+  IconLogout,
+  IconTicket
 } from '@tabler/icons'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
 import { logout } from 'redux/slices/userSlice'
 
@@ -28,7 +29,6 @@ export default function Navsbar({ atHome }: any) {
       backgroundColor: atHome ? '#7470ff38' : theme.colors.gray[0],
       borderBottom: atHome ? 'none' : `1px solid ${theme.colors.gray[2]}`
     },
-
     mainSection: {
       paddingBottom: theme.spacing.sm
     },
@@ -64,6 +64,11 @@ export default function Navsbar({ atHome }: any) {
         color: 'white'
       }
     },
+    navs: {
+      [theme.fn.smallerThan('sm')]: {
+        display: 'none'
+      }
+    },
     user: {
       display: 'flex',
       alignItems: 'center',
@@ -75,47 +80,19 @@ export default function Navsbar({ atHome }: any) {
         display: 'none'
       }
     },
-
     burger: {
       background: 'transparent',
       [theme.fn.largerThan('sm')]: {
         display: 'none'
       }
     },
-
     userActive: {
       backgroundColor:
         theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white
-    },
-
-    tabs: {
-      [theme.fn.smallerThan('sm')]: {
-        display: 'none'
-      }
-    },
-
-    tabsList: {
-      borderBottom: '0 !important'
-    },
-
-    tab: {
-      fontWeight: 'bold',
-      fontSize: '1.1rem',
-      height: 38,
-      color: atHome ? 'white' : theme.colors.gray[7],
-      backgroundColor: 'transparent',
-
-      '&:hover': {
-        backgroundColor: atHome ? '#ffffff42' : theme.white
-      },
-
-      '&[data-active]': {
-        backgroundColor: atHome ? 'transparent' : theme.white,
-        borderColor: theme.colors.gray[2]
-      }
     }
   }))
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const dispatch = useAppDispatch()
   const { classes, cx } = useStyles()
   const [userMenuOpened, setUserMenuOpened] = useState<boolean>(false)
@@ -202,6 +179,12 @@ export default function Navsbar({ atHome }: any) {
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item
+                  onClick={() => handleClick('/dashboard/user')}
+                  icon={<IconTicket size={20} stroke={1.5} color='indigo' />}
+                >
+                  Manage Booking
+                </Menu.Item>
+                <Menu.Item
                   onClick={() => {
                     if (window.confirm('Are you sure to logout?'))
                       dispatch(logout())
@@ -257,84 +240,53 @@ export default function Navsbar({ atHome }: any) {
           </Navbar>
         </Drawer>
       </Container>
-      <Container>
-        <Tabs
-          defaultValue='Home'
-          variant='outline'
-          classNames={{
-            root: classes.tabs,
-            tabsList: classes.tabsList,
-            tab: classes.tab
-          }}
-        >
-          <Tabs.List>
-            {/* <Tabs.Tab onClick={() => navigate('/')} value='Home'>
-              Home
-            </Tabs.Tab> */}
-            <Tabs.Tab onClick={() => navigate('/cars')} value='Cars'>
-              Cars
-            </Tabs.Tab>
-            {user.userToken && (
-              <Tabs.Tab
-                onClick={() => navigate('/dashboard/user')}
-                value='My Rents'
-              >
-                My Rents
-              </Tabs.Tab>
-            )}
-            {user.supplierToken && (
-              <Tabs.Tab
-                onClick={() => navigate('/dashboard/supplier')}
-                value='Dashboard'
-              >
-                Dashboard
-              </Tabs.Tab>
-            )}
-            <Tabs.Tab onClick={() => navigate('/suppliers')} value='Suppliers'>
-              Suppliers
-            </Tabs.Tab>
-            <Tabs.Tab onClick={() => navigate('/blogs')} value='Blogs'>
-              Blogs
-            </Tabs.Tab>
-            {!user.userToken && !user.supplierToken && (
-              <Tabs.Tab onClick={() => navigate('/login/user')} value='Login'>
-                Login
-              </Tabs.Tab>
-            )}
-            <Tabs.Tab onClick={() => navigate('/about')} value='About'>
-              About
-            </Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
+
+      <Container className={classes.navs}>
+        <div className='flex items-center relative'>
+          {tabs.map((item, index) => (
+            <Link
+              key={index}
+              to={item.link}
+              className={`font-bold px-4 pt-[6px] pb-1 rounded-t text-lg hover:bg-gray-100 ${
+                item.link.includes(pathname) &&
+                !atHome &&
+                'border-b-4 border-primary'
+                // 'bg-white border-[1px] border-gray-200 border-b-0 relative bottom-[-1px]'
+              } ${atHome && 'text-white hover:bg-[#7470ff38]'}`}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
       </Container>
     </div>
   )
 }
 
 const generalTabs = [
-  { name: 'Home', link: '/' },
-  { name: 'Cars', link: '/cars' },
-  { name: 'Suppliers', link: '/suppliers' },
-  { name: 'Blogs', link: '/blog' },
-  { name: 'Helpdesk', link: '/helpdesk' },
-  { name: 'About', link: '/about' },
-  { name: 'Login', link: '/login/user' }
+  { name: 'Cars', link: '/cars', value: 'cars' },
+  { name: 'Suppliers', link: '/suppliers', value: 'suppliers' },
+  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
+  { name: 'About', link: '/about', value: 'about' }
 ]
 const userTabs = [
-  { name: 'Home', link: '/' },
-  { name: 'Cars', link: '/cars' },
-  { name: 'My Rents', link: '/dashboard/user' },
-  { name: 'Suppliers', link: '/suppliers' },
-  { name: 'Blogs', link: '/blog' },
-  { name: 'Helpdesk', link: '/helpdesk' },
-  { name: 'About', link: '/about' }
+  { name: 'Cars', link: '/cars', value: 'cars' },
+  { name: 'My Rents', link: '/dashboard/user', value: 'dashboard' },
+  { name: 'Suppliers', link: '/suppliers', value: 'suppliers' },
+  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
+  { name: 'About', link: '/about', value: 'about' }
 ]
 const supplierTabs = [
-  { name: 'Home', link: '/' },
-  { name: 'Cars', link: '/cars' },
-  { name: 'Dashboard', link: '/dashboard/supplier' },
-  { name: 'Suppliers', link: '/suppliers' },
-  { name: 'Blogs', link: '/blog' },
-  { name: 'Helpdesk', link: '/helpdesk' },
-  { name: 'About', link: '/about' }
+  { name: 'Cars', link: '/cars', value: 'cars' },
+  {
+    name: 'Dashboard',
+    link: '/dashboard/supplier',
+    value: 'dashboard'
+  },
+  { name: 'Suppliers', link: '/suppliers', value: '' },
+  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
+  { name: 'About', link: '/about', value: 'about' }
 ]

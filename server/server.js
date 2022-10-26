@@ -6,6 +6,8 @@ import dotenv from 'dotenv'
 import connection from './configs/db.js'
 import authRouter from './routes/auth.js'
 import carRouter from './routes/cars.js'
+import bookingRouter from './routes/bookings.js'
+import userRouter from './routes/user.js'
 
 const PORT = process.env.PORT || 7000
 
@@ -20,5 +22,7 @@ connection()
 // Routes
 app.use('/', authRouter)
 app.use('/', carRouter)
+app.use('/', bookingRouter)
+app.use('/', userRouter)
 
 app.listen(PORT, () => console.log(`server is running on port= ${PORT}`))

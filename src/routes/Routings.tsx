@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from 'components/shared/Layout'
 import PrivateSupRoute from './PrivateSupRoute'
 import PrivateUserRoute from './PrivateUserRoute'
-import Cars from 'pages/Cars'
-import SearchResult from 'pages/SearchResult'
-import DealDetails from 'pages/DealDetails'
+import Cars from 'pages/deal/Cars'
+import SearchResult from 'pages/deal/SearchResult'
+import DealDetails from 'pages/deal/DealDetails'
+import Checkout from 'pages/deal/Checkout'
 const Home = lazy(() => import('pages/index'))
 const UserLogin = lazy(() => import('pages/auth/User'))
 const SupplierLogin = lazy(() => import('pages/auth/Supplier'))
@@ -46,6 +47,14 @@ export default function Routings() {
             element={
               <PrivateUserRoute>
                 <DealDetails />
+              </PrivateUserRoute>
+            }
+          />
+          <Route
+            path='/checkout/car/:name/:checkoutid'
+            element={
+              <PrivateUserRoute>
+                <Checkout />
               </PrivateUserRoute>
             }
           />

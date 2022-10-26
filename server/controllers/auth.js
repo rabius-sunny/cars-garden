@@ -113,3 +113,17 @@ export const loginUser = async (req, res) => {
     res.status(404).json({ error, message: error.message })
   }
 }
+
+export const getUser = async (req, res) => {
+  const id = req.id
+  try {
+    const response = await userModel.findById(id, {
+      password: 0,
+      __v: 0,
+      _id: 0
+    })
+    res.status(200).json({ response })
+  } catch (error) {
+    res.status(500).json({ error, message: error.message })
+  }
+}

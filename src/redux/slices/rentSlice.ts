@@ -6,6 +6,7 @@ interface rentState {
   dropofftime: string | null
   fromdate: Date | null
   todate: Date | null
+  cover: Boolean
 }
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   todate: null,
   days: null,
   picuptime: null,
-  dropofftime: null
+  dropofftime: null,
+  cover: false
 } as rentState
 
 const rentSlice = createSlice({
@@ -38,6 +40,12 @@ const rentSlice = createSlice({
     },
     addTodate(state, action) {
       state.todate = action.payload
+    },
+    addCover(state) {
+      state.cover = true
+    },
+    removeCover(state) {
+      state.cover = false
     }
   }
 })
@@ -48,6 +56,8 @@ export const {
   addPickup,
   addDropoff,
   addFromDate,
-  addTodate
+  addTodate,
+  addCover,
+  removeCover
 } = rentSlice.actions
 export default rentSlice.reducer
