@@ -9,7 +9,12 @@ import {
   Grid,
   Select
 } from '@mantine/core'
-import { IconChevronDown, IconClock, IconMapPin } from '@tabler/icons'
+import {
+  IconCheck,
+  IconChevronDown,
+  IconClock,
+  IconMapPin
+} from '@tabler/icons'
 import RCalender from 'components/modals/RCalender'
 import Navsbar from 'components/shared/Navbar'
 import { useAppDispatch, useAppSelector } from 'hooks/useReduxHooks'
@@ -39,19 +44,26 @@ const useStyles = createStyles(theme => ({
 
   title: {
     fontWeight: 800,
-    fontSize: 40,
+    fontSize: '4rem',
     letterSpacing: -1,
-    paddingLeft: theme.spacing.md,
-    paddingRight: theme.spacing.md,
+    marginTop: '6rem',
     color: theme.white,
     marginBottom: theme.spacing.xs,
-    textAlign: 'center',
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    // textAlign: 'center',
 
+    '@media (max-width: 840px)': {
+      fontSize: 50
+    },
+    '@media (max-width: 667px)': {
+      fontSize: 40
+    },
     '@media (max-width: 520px)': {
-      fontSize: 28,
-      textAlign: 'left'
+      fontSize: 28
     }
+  },
+
+  search: {
+    marginTop: '4rem'
   },
 
   highlight: {
@@ -147,7 +159,7 @@ export default function Hero() {
 
       <div className={classes.inner}>
         <Navsbar atHome={true} />
-        <Container size={580}>
+        <Container size='lg'>
           <Title className={classes.title}>
             Get your prefered car for your{' '}
             <Text component='span' inherit className={classes.highlight}>
@@ -155,18 +167,15 @@ export default function Hero() {
             </Text>{' '}
             jouney
           </Title>
-
-          <Text size='lg' className={classes.description}>
-            At{' '}
-            <Text component='span' inherit className={classes.highlight}>
-              Car Garden
-            </Text>{' '}
-            we have all the varities of latest cars of your prefer. Get a car
-            and have a greate travel that you dreamed of. So what are you
-            waiting for, search available cars with your preferences.
-          </Text>
+          <div className='hidden lg:flex text-white font-semibold items-center gap-4'>
+            {features.map((item, idx) => (
+              <div key={idx} className='flex items-center gap-3 text-lg'>
+                <IconCheck /> <span>{item}</span>
+              </div>
+            ))}
+          </div>
         </Container>
-        <Container size='lg'>
+        <Container size='lg' className={classes.search}>
           <Grid
             grow
             align='center'
@@ -262,8 +271,23 @@ export default function Hero() {
               </button>
             </Grid.Col>
           </Grid>
+          <div className='mt-8 lg:hidden flex justify-center text-white font-semibold gap-4'>
+            <div>
+              {features.map((item, idx) => (
+                <div key={idx} className='flex items-center gap-3 text-lg'>
+                  <IconCheck /> <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </Container>
       </div>
     </div>
   )
 }
+
+const features = [
+  'Free cancellations on most bookings',
+  '9000+ locations',
+  'Customer support in 15+ languages'
+]
