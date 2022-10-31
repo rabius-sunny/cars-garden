@@ -137,7 +137,7 @@ export default function UserDashboard() {
             <Group className={classes.header} position='apart'>
               <div className='bg-gray-800 p-2'>
                 <img
-                  src='/assets/images/logo.png'
+                  src='/assets/images/logo.svg'
                   width='200px'
                   height='80px'
                   alt='site logo'
@@ -168,7 +168,7 @@ export default function UserDashboard() {
             <Group className={classes.header} position='apart'>
               <div className='bg-gray-800 p-2'>
                 <img
-                  src='/assets/images/logo.png'
+                  src='/assets/images/logo.svg'
                   width='200px'
                   height='80px'
                   alt='site logo'

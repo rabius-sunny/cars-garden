@@ -137,7 +137,11 @@ export default function Navsbar({ atHome }: any) {
           </button>
           <Link to='/'>
             <img
-              src='/assets/images/logo.png'
+              src={
+                atHome
+                  ? '/assets/images/logowhite.svg'
+                  : '/assets/images/logo.svg'
+              }
               width='150px'
               height='70px'
               alt='site logo'
@@ -210,7 +214,7 @@ export default function Navsbar({ atHome }: any) {
           title={
             <div>
               <img
-                src='/assets/images/logo.png'
+                src='/assets/images/logo.svg'
                 width='150px'
                 height='60px'
                 alt='site logo'

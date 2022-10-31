@@ -135,7 +135,7 @@ export function Footer() {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <img src='/assets/images/logo.png' alt='site logo' />
+          <img src='/assets/images/logo.svg' alt='site logo' />
           <Text size='xs' color='dimmed' className={classes.description}>
             At Car Garden we have all the varities of latest cars of your
             prefer. Get a car and have a greate travel that you dreamed of. So
