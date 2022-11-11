@@ -270,7 +270,7 @@ export default function Navsbar({ atHome }: any) {
 const generalTabs = [
   { name: 'Cars', link: '/cars', value: 'cars' },
   { name: 'Suppliers', link: '/suppliers', value: 'suppliers' },
-  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Blogs', link: '/blogs', value: 'blog' },
   { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
   { name: 'About', link: '/about', value: 'about' }
 ]
@@ -278,7 +278,7 @@ const userTabs = [
   { name: 'Cars', link: '/cars', value: 'cars' },
   { name: 'My Rents', link: '/dashboard/user', value: 'dashboard' },
   { name: 'Suppliers', link: '/suppliers', value: 'suppliers' },
-  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Blogs', link: '/blogs', value: 'blog' },
   { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
   { name: 'About', link: '/about', value: 'about' }
 ]
@@ -290,7 +290,7 @@ const supplierTabs = [
     value: 'dashboard'
   },
   { name: 'Suppliers', link: '/suppliers', value: '' },
-  { name: 'Blogs', link: '/blog', value: 'blog' },
+  { name: 'Blogs', link: '/blogs', value: 'blog' },
   { name: 'Helpdesk', link: '/helpdesk', value: 'helpdesk' },
   { name: 'About', link: '/about', value: 'about' }
 ]

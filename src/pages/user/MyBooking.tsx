@@ -75,6 +75,11 @@ export default function MyBooking() {
           </div>
         </div>
       )}
+      {!loading && !data?.length && (
+        <p className='text-center text-red-500 font-bold text-xl'>
+          No booking data yet
+        </p>
+      )}
       <div className='grid grid-cols-2 gap-4'>
         {data?.map((i: any, idx: number) => (
           <div className='col-span-2 sm:col-span-1' key={idx}>

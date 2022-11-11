@@ -2,6 +2,7 @@ import Brands from 'components/home/Brands'
 import Cta from 'components/home/Cta'
 import Features from 'components/home/Features'
 import Hero from 'components/home/Hero'
+import HomeBlog from 'components/home/HomeBlog'
 import InfoAccordion from 'components/home/InfoAccordion'
 import Locations from 'components/home/Locations'
 import Qa from 'components/home/Qa'
@@ -24,11 +25,12 @@ export default function Home() {
     <div>
       <Hero />
       <Brands />
-      <Cta />
       <Features />
+      <Cta />
       <Locations />
       <Qa />
       <Reviews />
+      <HomeBlog />
       <InfoAccordion />
     </div>
   )

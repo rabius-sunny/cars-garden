@@ -7,6 +7,7 @@ import Cars from 'pages/deal/Cars'
 import SearchResult from 'pages/deal/SearchResult'
 import DealDetails from 'pages/deal/DealDetails'
 import Checkout from 'pages/deal/Checkout'
+import Blogs from 'pages/Blog'
 const Home = lazy(() => import('pages/index'))
 const UserLogin = lazy(() => import('pages/auth/User'))
 const SupplierLogin = lazy(() => import('pages/auth/Supplier'))
@@ -22,6 +23,7 @@ export default function Routings() {
           <Route path='/cars' element={<Cars />} />
           <Route path='/login/user' element={<UserLogin />} />
           <Route path='/login/supplier' element={<SupplierLogin />} />
+          <Route path='/blogs' element={<Blogs />} />
           <Route
             path='/search/location/:location/duration/:days'
             element={<SearchResult />}

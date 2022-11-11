@@ -7,6 +7,7 @@ import { choices } from 'static/details'
 export default function Cart({ data, checkout }: any) {
   const { days, location, dropofftime, fromdate, picuptime, todate, cover } =
     useAppSelector(state => state.rent)
+
   return (
     <>
       <div className='p-3 rounded-lg border-[1px] border-gray-300'>
@@ -57,7 +58,11 @@ export default function Cart({ data, checkout }: any) {
         <hr className='mt-4 mb-2' />
         <div className='flex items-center justify-between'>
           <p className='font-bold'>Total</p>
-          <p className='font-bold'>343434</p>
+          <p className='font-bold'>
+            {cover
+              ? parseInt(data?.charge) * (days || 1) + 31.43
+              : parseInt(data?.charge) * (days || 1)}
+          </p>
         </div>
       </div>
       {checkout ? (
@@ -73,7 +78,8 @@ export default function Cart({ data, checkout }: any) {
       ) : (
         <div className='mt-4 bg-green-100 p-3 sm:p-4 rounded-lg border-[1px] border-green-600'>
           <p className='font-bold'>
-            This car is costing you just ${45454} – a real bargain…
+            This car is costing you just ${parseInt(data?.charge) * (days || 1)}{' '}
+            – a real bargain…
           </p>
           <p>
             At that time of year, the average {data?.type} car at {location}{' '}

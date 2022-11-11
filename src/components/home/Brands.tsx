@@ -2,7 +2,6 @@ import { Container, Skeleton } from '@mantine/core'
 import useGet from 'hooks/useGet'
 export default function Brands() {
   const { data, loading } = useGet('/get-brands')
-  console.log('data', data)
   return (
     <section>
       <Container size='lg'>
